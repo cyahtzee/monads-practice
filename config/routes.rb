@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   resources :message_thread_messages
   resources :message_threads
   resources :messages
-  resources :posts
+  resources :posts do
+    resources :messages
+  end
   resources :users
-  resources :addresses
+  resources :addresses, only: %i[create update destroy]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
