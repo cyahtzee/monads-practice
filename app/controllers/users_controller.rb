@@ -3,7 +3,10 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    user_ids = Rails.cache.fetch('busy_user_ids', expires_in: 12.hours) do
+      User.busy_users.pluck(:id)
+    end
+    @users = User.where(id: user_ids)
 
     render json: @users
   end
